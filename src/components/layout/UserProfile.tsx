@@ -49,8 +49,7 @@ export function UserProfile() {
   };
 
   return (
-    <div className="bg-card border-b border-border p-6">
-      <div className="flex items-center gap-4">
+    <div className="flex items-center gap-4">
         <Avatar className="h-16 w-16 border-2 border-primary/20">
           <AvatarFallback className="bg-primary/10 text-primary text-lg font-semibold">
             {getInitials(user.name)}
@@ -93,7 +92,6 @@ export function UserProfile() {
             )}
           </div>
         </div>
-      </div>
     </div>
   );
 }

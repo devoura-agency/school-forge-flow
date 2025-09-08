@@ -9,6 +9,7 @@ import { AdminModule } from '@/components/modules/AdminModule';
 import { HeadModule } from '@/components/modules/HeadModule';
 import { Button } from '@/components/ui/button';
 import { Menu } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 export function Dashboard() {
   const { user } = useAuth();
@@ -62,20 +63,21 @@ export function Dashboard() {
   return (
     <div className="min-h-screen bg-background">
       <Header />
-      <div className="flex min-h-[calc(100vh-4rem)]">
-        {/* Mobile Hamburger Button */}
-        <div className="lg:hidden fixed top-20 left-4 z-50">
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={() => setSidebarOpen(true)}
-            className="bg-background shadow-md"
-          >
-            <Menu className="h-5 w-5" />
-          </Button>
-        </div>
-
-        {/* Sidebar Navigation */}
+      
+      {/* Mobile Navigation - slides down from top */}
+      <Navigation 
+        activeModule={activeModule} 
+        onModuleChange={setActiveModule}
+        isOpen={sidebarOpen}
+        onClose={() => setSidebarOpen(false)}
+        className="lg:hidden"
+      />
+      
+      <div className={cn(
+        "flex min-h-[calc(100vh-4rem)] transition-all duration-300 ease-in-out",
+        sidebarOpen && "lg:mt-0" // Only apply margin on mobile when needed
+      )}>
+        {/* Desktop Sidebar Navigation */}
         <div className="hidden lg:block lg:w-64 flex-shrink-0">
           <Navigation 
             activeModule={activeModule} 
@@ -85,19 +87,29 @@ export function Dashboard() {
           />
         </div>
 
-        {/* Mobile Navigation */}
-        <Navigation 
-          activeModule={activeModule} 
-          onModuleChange={setActiveModule}
-          isOpen={sidebarOpen}
-          onClose={() => setSidebarOpen(false)}
-          className="lg:hidden"
-        />
-
         {/* Main Content Area */}
         <main className="flex-1 flex flex-col min-w-0">
-          {/* User Profile Section */}
-          <UserProfile />
+          {/* User Profile Section with Mobile Hamburger */}
+          <div className="bg-card border-b border-border p-6">
+            <div className="flex items-center gap-4">
+              {/* Mobile Hamburger Button */}
+              <div className="lg:hidden">
+                <Button
+                  variant="outline"
+                  size="icon"
+                  onClick={() => setSidebarOpen(!sidebarOpen)}
+                  className="bg-background shadow-md"
+                >
+                  <Menu className="h-5 w-5" />
+                </Button>
+              </div>
+              
+              {/* User Profile Content */}
+              <div className="flex-1">
+                <UserProfile />
+              </div>
+            </div>
+          </div>
           
           {/* Module Content */}
           <div className="flex-1 p-6 overflow-auto">

@@ -72,10 +72,10 @@ export function Navigation({ activeModule, onModuleChange, isOpen, onClose, clas
 
   return (
     <>
-      {/* Mobile Overlay */}
+      {/* Mobile Click Outside Area */}
       {isOpen && (
         <div 
-          className="fixed inset-0 bg-background/80 backdrop-blur-sm z-40 lg:hidden"
+          className="fixed inset-0 z-30 lg:hidden"
           onClick={onClose}
         />
       )}
@@ -83,15 +83,17 @@ export function Navigation({ activeModule, onModuleChange, isOpen, onClose, clas
       {/* Navigation Sidebar */}
       <nav 
         className={cn(
-          "bg-sidebar border-r border-sidebar-border min-h-screen transition-all duration-300 ease-in-out z-50",
-          "lg:static lg:translate-x-0 lg:w-64",
-          "fixed left-0 top-0 w-80 transform",
-          isOpen ? "translate-x-0" : "-translate-x-full",
+          "bg-sidebar border-b border-sidebar-border transition-all duration-300 ease-in-out z-40",
+          "lg:static lg:w-64 lg:min-h-screen lg:border-r lg:border-b-0",
+          "lg:block",
+          "fixed top-0 left-0 right-0 w-full transform origin-top",
+          isOpen ? "scale-y-100 opacity-100" : "scale-y-0 opacity-0 lg:scale-y-100 lg:opacity-100",
+          "lg:translate-y-0",
           className
         )}
       >
         {/* Mobile Header with Close Button */}
-        <div className="lg:hidden flex items-center justify-between p-4 border-b border-sidebar-border">
+        <div className="lg:hidden flex items-center justify-between p-4 border-b border-sidebar-border bg-sidebar">
           <h2 className="text-lg font-semibold text-sidebar-foreground">Menu</h2>
           <Button
             variant="ghost"
